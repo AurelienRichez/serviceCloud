@@ -30,7 +30,7 @@ public class Main {
         src.append("public class DynaClass {\n");
         src.append("    public String toString() {\n");
         src.append("        return \"Hello, I am \" + ");
-        src.append("this.getClass().getSimpleName()\n");
+        src.append("this.getClass().getSimpleName();\n");
         src.append("    }\n");
         src.append("}\n");
 
