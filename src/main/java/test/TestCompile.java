@@ -81,11 +81,20 @@ public class TestCompile extends HttpServlet {
         // Creating an instance of our compiled class and
         // running its toString() method
 		ClassLoader classLoader = fileManager.getClassLoader(null);
-		response.getWriter().append(classLoader.toString());
-        //Object instance = classLoader.loadClass(fullName).newInstance();
-        
+		
+        Object instance = classLoader.loadClass(fullName).newInstance();
+        response.getWriter().append(instance.toString());
         //response.getWriter().append(instance.toString());
 		} catch (RuntimeErrorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
