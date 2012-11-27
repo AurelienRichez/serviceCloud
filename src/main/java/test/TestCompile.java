@@ -154,7 +154,7 @@ public class TestCompile extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RuntimeException e) {
-			response.getWriter().append(e.getMessage());
+			response.getWriter().append(e.toString());
 		}
 	}
 
