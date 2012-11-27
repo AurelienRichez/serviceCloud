@@ -115,7 +115,7 @@ public class TestCompile extends HttpServlet {
 		// Here we specify the source code of the class to be compiled
 		String src = request.getParameter("source");
 
-		response.getWriter().append(src + "\n");
+		response.getWriter().append("source : \n" + src + "\n");
 
 		// We get an instance of JavaCompiler. Then
 		// we create a file manager
@@ -145,19 +145,17 @@ public class TestCompile extends HttpServlet {
 			ClassLoader classLoader = fileManager.getClassLoader(null);
 
 			Object instance = classLoader.loadClass(fullName).newInstance();
-			response.getWriter().append(instance.toString());
+			
+			response.getWriter().append("exécution de toString : \n" + instance.toString());
 			}
 			else {
-				response.getWriter().append(writer.toString());
+				response.getWriter().append("erreur : \n" + writer.toString());
 			}
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
