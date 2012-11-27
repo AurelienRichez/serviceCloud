@@ -104,7 +104,61 @@ public class TestCompile extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// Full name of the class that will be compiled.
+        // If class should be in some package,
+        // fullName should contain it too
+        // (ex. "testpackage.DynaClass")
+        String fullName = request.getParameter("fullName");
+
+        // Here we specify the source code of the class to be compiled
+        String src = request.getParameter("source");
+        
+        response.getWriter().append(src + "\n");
+        
+        // We get an instance of JavaCompiler. Then
+        // we create a file manager
+        // (our custom implementation of it)
+        JavaCompiler compiler = new EclipseCompiler();
+        JavaFileManager fileManager = new
+            compilation.ClassFileManager(compiler
+                .getStandardFileManager(null, null, null));
+        
+
+        // Dynamic compiling requires specifying
+        // a list of "files" to compile. In our case
+        // this is a list containing one "file" which is in our case
+        // our own implementation (see details below)
+        List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
+        jfiles.add(new CharSequenceJavaFileObject(fullName, src));
+
+        // We specify a task to the compiler. Compiler should use our file
+        // manager and our list of "files".
+        // Then we run the compilation with call()
+        
+        try {
+			try {
+				compiler.getTask(null, fileManager, null, null, null, jfiles)
+						.call();
+			} catch (RuntimeException e) {
+				response.getWriter().append(e.getMessage());
+			}
+		// Creating an instance of our compiled class and
+        // running its toString() method
+		ClassLoader classLoader = fileManager.getClassLoader(null);
+		
+        Object instance = classLoader.loadClass(fullName).newInstance();
+        response.getWriter().append(instance.toString());
+        //response.getWriter().append(instance.toString());
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
