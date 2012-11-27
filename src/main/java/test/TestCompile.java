@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
 
@@ -134,8 +136,9 @@ public class TestCompile extends HttpServlet {
 		// Then we run the compilation with call()
 
 		try {
-			compiler.getTask(null, fileManager, null, null, null, jfiles)
-					.call();
+			StringWriter writer = new StringWriter();
+			CompilationTask cTask =  compiler.getTask(writer, fileManager, null, null, null, jfiles);
+			if(cTask.call()) {
 
 			// Creating an instance of our compiled class and
 			// running its toString() method
@@ -143,7 +146,10 @@ public class TestCompile extends HttpServlet {
 
 			Object instance = classLoader.loadClass(fullName).newInstance();
 			response.getWriter().append(instance.toString());
-			// response.getWriter().append(instance.toString());
+			}
+			else {
+				response.getWriter().append(writer.toString());
+			}
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,9 +159,6 @@ public class TestCompile extends HttpServlet {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (RuntimeException e) {
-			response.getWriter().append(e.getStackTrace().toString());
 		}
 	}
-
 }
