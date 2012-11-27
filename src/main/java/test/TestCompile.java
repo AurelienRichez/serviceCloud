@@ -62,6 +62,7 @@ public class TestCompile extends HttpServlet {
         JavaFileManager fileManager = new
             compilation.ClassFileManager(compiler
                 .getStandardFileManager(null, null, null));
+        response.getWriter().print(fileManager.toString());
 
         // Dynamic compiling requires specifying
         // a list of "files" to compile. In our case
