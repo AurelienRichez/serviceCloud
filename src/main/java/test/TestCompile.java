@@ -61,14 +61,14 @@ public class TestCompile extends HttpServlet {
         JavaFileManager fileManager = new
             compilation.ClassFileManager(compiler
                 .getStandardFileManager(null, null, null));
-        response.getWriter().print(fileManager.toString());
-//
-//        // Dynamic compiling requires specifying
-//        // a list of "files" to compile. In our case
-//        // this is a list containing one "file" which is in our case
-//        // our own implementation (see details below)
-//        List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
-//        jfiles.add(new CharSequenceJavaFileObject(fullName, src));
+        
+
+        // Dynamic compiling requires specifying
+        // a list of "files" to compile. In our case
+        // this is a list containing one "file" which is in our case
+        // our own implementation (see details below)
+        List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
+        jfiles.add(new CharSequenceJavaFileObject(fullName, src));
 //
 //        // We specify a task to the compiler. Compiler should use our file
 //        // manager and our list of "files".
