@@ -1,5 +1,6 @@
 package test;
 
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import javax.tools.JavaFileObject;
 
 import org.eclipse.jdt.internal.compiler.tool.EclipseCompiler;
 
-import compilation.CharSequenceJavaFileObject;
+import compilation.impl.CharSequenceJavaFileObject;
+
 
 /**
  * Servlet implementation class TestCompile
@@ -60,7 +62,7 @@ public class TestCompile extends HttpServlet {
 		// we create a file manager
 		// (our custom implementation of it)
 		JavaCompiler compiler = new EclipseCompiler();
-		JavaFileManager fileManager = new compilation.ClassFileManager(
+		JavaFileManager fileManager = new compilation.impl.ClassFileManager(
 				compiler.getStandardFileManager(null, null, null));
 
 		// Dynamic compiling requires specifying
@@ -121,7 +123,7 @@ public class TestCompile extends HttpServlet {
 		// we create a file manager
 		// (our custom implementation of it)
 		JavaCompiler compiler = new EclipseCompiler();
-		JavaFileManager fileManager = new compilation.ClassFileManager(
+		JavaFileManager fileManager = new compilation.impl.ClassFileManager(
 				compiler.getStandardFileManager(null, null, null));
 
 		// Dynamic compiling requires specifying

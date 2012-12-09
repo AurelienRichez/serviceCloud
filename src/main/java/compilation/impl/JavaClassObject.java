@@ -1,4 +1,4 @@
-package compilation;
+package compilation.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;

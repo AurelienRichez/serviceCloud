@@ -1,4 +1,4 @@
-package compilation;
+package compilation.impl;
 import java.net.URI;
 
 import javax.tools.SimpleJavaFileObject;
