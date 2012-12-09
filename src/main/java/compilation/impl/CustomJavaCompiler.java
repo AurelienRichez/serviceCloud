@@ -1,5 +1,7 @@
 package compilation.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,13 +37,21 @@ public class CustomJavaCompiler implements Compiler<InMemoryJavaFile> {
 	}
 
 	@Override
-	public String run(String className, String functionName, Object[] args) {
+	public String execute(String className, String functionName, Object[] args) {
 		
 		ClassLoader classLoader = fileManager.getClassLoader(null);
+		PrintStream stdOut = System.out;
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			Method method = classLoader.loadClass(className).getMethod("main", String[].class);
 			
+		    PrintStream ps = new PrintStream(baos);
+		    
+		    System.setOut(ps);			
 			method.invoke(null, args);
+			System.out.flush();
+			
+			
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -54,8 +64,10 @@ public class CustomJavaCompiler implements Compiler<InMemoryJavaFile> {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		}finally {
+			System.setOut(stdOut);
 		}
-		return null;
+		return baos.toString();
 	}
 	
 	public static void main(String[] args) {
@@ -74,7 +86,7 @@ public class CustomJavaCompiler implements Compiler<InMemoryJavaFile> {
 		CustomJavaCompiler compiler = new CustomJavaCompiler();
 		System.out.println(compiler.compile(files));
 		String[] params = new String[0];
-		compiler.run("DynaClass", "main",new Object[] {params});
+		System.out.println( " execution : " + compiler.execute("DynaClass", "main",new Object[] {params}));
 		
 	}
 

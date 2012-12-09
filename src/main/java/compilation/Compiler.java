@@ -15,6 +15,6 @@ public interface Compiler<T extends SourceFile> {
 	 * @param functionName
 	 * @return
 	 */
-	String run(String className, String functionName, Object[] args);
+	String execute(String className, String functionName, Object[] args);
 	
 }
